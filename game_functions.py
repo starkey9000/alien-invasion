@@ -4,18 +4,27 @@ import pygame
 from bullet import Bullet
 from alien import Alien
 
-def check_events(ai_settings, screen, ship, bullets):
+def check_events(ai_settings, screen, stats, play_button, ship, bullets):
     #Watch for keyboard and mouse events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            check_play_button(stats, play_button, mouse_x, mouse_y)
             
         elif event.type == pygame.KEYDOWN:
             check_keydown_events(event, ai_settings, screen, ship, bullets)
 
         elif event.type == pygame.KEYUP:
             check_keyup_events(event, ship)
+
+def check_play_button(stats, play_button, mouse_x, mouse_y):
+    '''Start a new game when the player clicks play'''
+    if play_button.rect.collidepoint(mouse_x, mouse_y):
+        stats.game_active = True
             
 
 def check_keydown_events(event, ai_settings, screen, ship, bullets):
